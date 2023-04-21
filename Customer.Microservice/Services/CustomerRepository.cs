@@ -36,9 +36,26 @@ namespace Customer.Microservice.Services
             return result;
         }
 
-        public Task<CustomerEntity> UpdateAsync(CustomerEntity entity)
+        public async Task<CustomerEntity> UpdateAsync(CustomerEntity entity)
         {
-            throw new NotImplementedException();
+            var existingEntity = await _context.Customers.FindAsync(entity.Id);
+            if (existingEntity == null)
+            {
+                throw new Exception($"Customer with id {entity.Id} not found.");
+            }
+
+            existingEntity.FirstName = entity.FirstName;
+            existingEntity.LastName = entity.LastName;
+            existingEntity.Email = entity.Email;
+            existingEntity.PhoneNumber = entity.PhoneNumber;
+            existingEntity.City = entity.City;
+            existingEntity.State = entity.State;
+            existingEntity.ZipCode = entity.ZipCode;
+            existingEntity.LastModifiedDate = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return existingEntity;
         }
     }
 }
