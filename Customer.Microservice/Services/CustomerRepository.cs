@@ -12,9 +12,12 @@ namespace Customer.Microservice.Services
             _context = context;
         }
 
-        public Task<CustomerEntity> CreateAsync(CustomerEntity entity)
+        public async Task<CustomerEntity> CreateAsync(CustomerEntity entity)
         {
-            throw new NotImplementedException();
+            await _context.Customers.AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            return entity;
         }
 
         public async Task<CustomerEntity> DeleteAsync(CustomerEntity entity)
