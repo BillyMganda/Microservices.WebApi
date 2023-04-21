@@ -17,9 +17,12 @@ namespace Customer.Microservice.Services
             throw new NotImplementedException();
         }
 
-        public Task<CustomerEntity> DeleteAsync(CustomerEntity entity)
+        public async Task<CustomerEntity> DeleteAsync(CustomerEntity entity)
         {
-            throw new NotImplementedException();
+            var result = await _context.Customers.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            _context.Customers.Remove(result);
+            await _context.SaveChangesAsync();
+            return result;
         }
 
         public async Task<IReadOnlyList<CustomerEntity>> GetAllAsync()
