@@ -1,6 +1,8 @@
-﻿namespace Customer.Microservice.DTOs
+﻿using MediatR;
+
+namespace Customer.Microservice.CQRS
 {
-    public class GetCustomerDto
+    public class UpdateCustomerCommand : IRequest<string>
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
@@ -10,6 +12,5 @@
         public string City { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
         public string ZipCode { get; set; } = string.Empty;
-        public DateTime LastModifiedDate { get; set; }
     }
 }
