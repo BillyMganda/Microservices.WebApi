@@ -1,6 +1,6 @@
 ﻿namespace Customer.Microservice.Models
 {
-    public class Customer
+    public class CustomerEntity
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
