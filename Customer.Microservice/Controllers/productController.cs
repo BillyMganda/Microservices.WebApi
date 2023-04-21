@@ -23,5 +23,17 @@ namespace Customer.Microservice.Controllers
 
             return Ok(customers);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetCustomerDto>> GetCustomerById(Guid id)
+        {
+            var query = new GetCustomerByIdQuery { Id = id };
+            var customer = await _mediator.Send(query);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return Ok(customer);
+        }
     }
 }
