@@ -4,9 +4,9 @@
   },
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/students",
+      "UpstreamPathTemplate": "/gateway/customers",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/student",
+      "DownstreamPathTemplate": "/api/customers",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -16,9 +16,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/students/{Id}",
+      "UpstreamPathTemplate": "/gateway/customers/{Id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/student/{Id}",
+      "DownstreamPathTemplate": "/api/customers/{Id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -28,9 +28,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/teachers",
+      "UpstreamPathTemplate": "/gateway/products",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/teacher",
+      "DownstreamPathTemplate": "/api/products",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -40,9 +40,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/teacher/{Id}",
+      "UpstreamPathTemplate": "/gateway/products/{Id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/teachers/{Id}",
+      "DownstreamPathTemplate": "/api/products/{Id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
