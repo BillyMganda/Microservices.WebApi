@@ -23,5 +23,17 @@ namespace Product.Microservice.Controllers
 
             return Ok(products);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GetProductDto>> GetProductById(Guid id)
+        {
+            var query = new GetProductByIdQuery { Id = id };
+            var Product = await _mediator.Send(query);
+            if (Product == null)
+            {
+                return NotFound();
+            }
+            return Ok(Product);
+        }
     }
 }
