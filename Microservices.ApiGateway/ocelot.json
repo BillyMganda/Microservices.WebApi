@@ -3,6 +3,8 @@
     "BaseUrl": "http://localhost:5003"
   },
   "Routes": [
+
+    // Customers
     {
       "UpstreamPathTemplate": "/gateway/customers",
       "UpstreamHttpMethod": [ "Get" ],
@@ -28,6 +30,44 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/gateway/customers",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/customers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/customers",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamPathTemplate": "/api/customers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/customers/{Id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/customers/{Id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    },
+
+    // Products
+    {
       "UpstreamPathTemplate": "/gateway/products",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/products",
@@ -51,6 +91,8 @@
         }
       ]
     }
+
+
 
   ]
 }
