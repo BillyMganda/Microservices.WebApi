@@ -35,5 +35,13 @@ namespace Product.Microservice.Controllers
             }
             return Ok(Product);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> AddProduct([FromBody] AddProductCommand command)
+        {
+            var ProductId = await _mediator.Send(command);
+
+            return Ok(ProductId);
+        }
     }
 }
