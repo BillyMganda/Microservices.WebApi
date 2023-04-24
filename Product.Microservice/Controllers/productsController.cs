@@ -16,7 +16,7 @@ namespace Product.Microservice.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetProductDto>>> GetAll()
+        public async Task<ActionResult<List<GetProductDto>>> GetAllProducts()
         {
             var query = new GetProductsQuery();
             var products = await _mediator.Send(query);
@@ -58,7 +58,7 @@ namespace Product.Microservice.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
             try
             {
