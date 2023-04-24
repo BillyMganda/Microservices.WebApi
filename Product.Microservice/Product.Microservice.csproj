@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="DTOs\" />
+    <Folder Include="CQRS\" />
   </ItemGroup>
 
   <ItemGroup>
