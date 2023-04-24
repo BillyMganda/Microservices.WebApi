@@ -3,7 +3,7 @@ using Product.Microservice.DTOs;
 
 namespace Product.Microservice.CQRS
 {
-    public class GetProductsQuery : IRequest<GetProductDto>
+    public class GetProductsQuery : IRequest<List<GetProductDto>>
     {
     }
 }
