@@ -44,17 +44,12 @@ namespace Customer.Microservice.Controllers
             return Ok(customerId);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
-        {
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
-
+        [HttpPut]
+        public async Task<ActionResult> UpdateCustomer([FromBody] UpdateCustomerCommand command)
+        {  
             var result = await _mediator.Send(command);
 
-            if (result == "Success")
+            if (result == "Customer updated successfully.")
             {
                 return Ok();
             }

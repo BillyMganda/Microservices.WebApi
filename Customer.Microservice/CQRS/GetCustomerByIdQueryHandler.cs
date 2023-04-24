@@ -29,7 +29,8 @@ namespace Customer.Microservice.CQRS
                 PhoneNumber = customer.PhoneNumber,                
                 City = customer.City,
                 State = customer.State,
-                ZipCode = customer.ZipCode
+                ZipCode = customer.ZipCode,
+                LastModifiedDate = customer.LastModifiedDate,
             };
 
             return result;

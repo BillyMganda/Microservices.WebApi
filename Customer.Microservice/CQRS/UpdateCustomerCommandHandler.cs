@@ -26,6 +26,7 @@ namespace Customer.Microservice.CQRS
             customer.City = request.City;
             customer.State = request.State;
             customer.ZipCode = request.ZipCode;
+            customer.LastModifiedDate = DateTime.UtcNow;
 
             await _customerRepository.UpdateAsync(customer);
             return "Customer updated successfully.";

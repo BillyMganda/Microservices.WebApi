@@ -25,6 +25,7 @@ namespace Customer.Microservice.CQRS
                 City = c.City,
                 State = c.State,
                 ZipCode = c.ZipCode,
+                LastModifiedDate = c.LastModifiedDate,
             }).ToList();
 
             return result;

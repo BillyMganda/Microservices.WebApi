@@ -16,14 +16,17 @@ namespace Customer.Microservice.CQRS
         {
             var customerEntity = new CustomerEntity
             {
-                Id = request.Id,
+                Id = Guid.NewGuid(),
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 City = request.City,
                 State = request.State,
-                ZipCode = request.ZipCode
+                ZipCode = request.ZipCode,
+                DateCreated = DateTime.UtcNow,
+                LastModifiedDate = DateTime.UtcNow,
+                IsActive = true
             };
 
             await _customerRepository.CreateAsync(customerEntity);
