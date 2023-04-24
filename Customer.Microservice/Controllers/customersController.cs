@@ -7,10 +7,10 @@ namespace Customer.Microservice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class productController : ControllerBase
+    public class customersController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public productController(IMediator mediator)
+        public customersController(IMediator mediator)
         {
             _mediator = mediator;
         }
