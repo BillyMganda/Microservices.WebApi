@@ -1,4 +1,4 @@
-﻿namespace Product.Microservice.CQRS
+﻿namespace Product.Microservice.DTOs
 {
     public class GetProductDto
     {
