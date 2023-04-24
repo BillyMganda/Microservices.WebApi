@@ -56,5 +56,19 @@ namespace Product.Microservice.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteProductCommand { Id = id });
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
     }
 }
