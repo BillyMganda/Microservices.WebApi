@@ -35,5 +35,46 @@ namespace Customer.Microservice.Controllers
             }
             return Ok(customer);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> AddCustomer([FromBody] AddCustomerCommand command)
+        {
+            var customerId = await _mediator.Send(command);
+
+            return Ok(customerId);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateCustomer(Guid id, [FromBody] UpdateCustomerCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+
+            var result = await _mediator.Send(command);
+
+            if (result == "Success")
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteCustomerCommand { Id = id });
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
     }
 }
