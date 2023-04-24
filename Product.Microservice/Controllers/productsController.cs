@@ -43,5 +43,18 @@ namespace Product.Microservice.Controllers
 
             return Ok(ProductId);
         }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (result == "Product updated successfully.")
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }
