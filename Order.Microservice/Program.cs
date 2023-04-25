@@ -1,4 +1,5 @@
 using Order.Microservice.Data;
+using Order.Microservice.Models;
 using Order.Microservice.Services;
 using System.Reflection;
 
@@ -9,7 +10,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-builder.Services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")));
+builder.Services.Configure<OrdersDatabaseSettings>(builder.Configuration.GetSection("MicroservicesOrderDatabase"));
+//builder.Services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")));
 
 
 var app = builder.Build();
