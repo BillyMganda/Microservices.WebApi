@@ -39,9 +39,10 @@ namespace Order.Microservice.Services
             return result;
         }
 
-        public Task<OrderEntity> GetByOrderDateAsync(DateTime date)
+        public async Task<OrderEntity> GetByOrderDateAsync(DateTime date)
         {
-            throw new NotImplementedException();
+            var result = await _context.Orders.FindAsync(date);
+            return result;
         }
 
         public Task<OrderEntity> GetByOrderIdAsync(Guid Id)
