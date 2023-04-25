@@ -18,7 +18,7 @@ namespace Order.Microservice.CQRS
             {
                 Id = Guid.NewGuid(),
                 CustomerId = Guid.NewGuid(),
-                ProductIds = Guid.NewGuid(), // TODO: Fix This
+                ProductIds = request.ProductIds,
                 OrderDate = DateTime.Now,
                 Price = request.Price,
                 Quantity = request.Quantity,
