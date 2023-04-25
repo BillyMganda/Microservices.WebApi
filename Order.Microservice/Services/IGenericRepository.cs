@@ -7,8 +7,7 @@
         Task<T> GetByProductIdAsync(Guid Id);
         Task<T> GetByOrderDateAsync(DateTime date);
         Task<IReadOnlyList<T>> GetAllAsync();
-        Task<T> CreateAsync(T entity);
-        Task<T> UpdateAsync(T entity);
+        Task<T> CreateAsync(T entity);        
         Task<T> DeleteAsync(T entity);
     }
 }

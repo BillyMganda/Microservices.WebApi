@@ -55,11 +55,6 @@ namespace Order.Microservice.Services
         {
             var result = await _context.Orders.FindAsync(Id);
             return result;
-        }
-
-        public Task<OrderEntity> UpdateAsync(OrderEntity entity)
-        {
-            throw new NotImplementedException();
-        }
+        }        
     }
 }
