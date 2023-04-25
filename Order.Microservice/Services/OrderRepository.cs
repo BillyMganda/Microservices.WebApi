@@ -28,14 +28,15 @@ namespace Order.Microservice.Services
             return result;
         }
 
-        public Task<IReadOnlyList<OrderEntity>> GetAllAsync()
+        public async Task<IReadOnlyList<OrderEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Orders.ToListAsync();
         }
 
-        public Task<OrderEntity> GetByCustomerIdAsync(Guid Id)
+        public async Task<OrderEntity> GetByCustomerIdAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Orders.FindAsync(Id);
+            return result;
         }
 
         public Task<OrderEntity> GetByOrderDateAsync(DateTime date)
