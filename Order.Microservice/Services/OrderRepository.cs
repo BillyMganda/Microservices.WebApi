@@ -51,9 +51,9 @@ namespace Order.Microservice.Services
             return result;
         }
 
-        public async Task<OrderEntity> GetByProductIdAsync(Guid Id)
+        public async Task<List<OrderEntity>> GetByProductIdAsync(Guid Id)
         {
-            var result = await _context.Orders.FindAsync(Id);
+            var result = await _context.Orders.Where(x => x.ProductIds.Contains(Id)).ToListAsync();
             return result;
         }        
     }
