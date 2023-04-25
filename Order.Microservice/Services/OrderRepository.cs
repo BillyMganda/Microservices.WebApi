@@ -20,9 +20,12 @@ namespace Order.Microservice.Services
             return entities;
         }
 
-        public Task<OrderEntity> DeleteAsync(OrderEntity entity)
+        public async Task<OrderEntity> DeleteAsync(OrderEntity entity)
         {
-            throw new NotImplementedException();
+            var result = await _context.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            _context.Orders.Remove(result);
+            await _context.SaveChangesAsync();
+            return result;
         }
 
         public Task<IReadOnlyList<OrderEntity>> GetAllAsync()
