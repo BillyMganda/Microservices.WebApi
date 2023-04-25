@@ -1,0 +1,12 @@
+﻿namespace Order.Microservice.Models
+{
+    public class OrderEntity
+    {
+        public Guid Id { get; set; }
+        public Guid CustomerId { get; set; }
+        public List<Guid> ProductIds { get; set; } = new List<Guid>();
+        public DateTime OrderDate { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+    }
+}
