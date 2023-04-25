@@ -47,5 +47,17 @@ namespace Order.Microservice.Controllers
             }
             return Ok(order);
         }
+
+        [HttpGet("{productid}")]
+        public async Task<ActionResult<GetOrderDto>> GetOrderByProductId(Guid ProductId)
+        {
+            var query = new GetOrderByProductIdQuery { ProductId = ProductId };
+            var order = await _mediator.Send(query);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
     }
 }
