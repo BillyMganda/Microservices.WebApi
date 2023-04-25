@@ -45,9 +45,10 @@ namespace Order.Microservice.Services
             return result;
         }
 
-        public Task<OrderEntity> GetByOrderIdAsync(Guid Id)
+        public async Task<OrderEntity> GetByOrderIdAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Orders.FindAsync(Id);
+            return result;
         }
 
         public Task<OrderEntity> GetByProductIdAsync(Guid Id)
