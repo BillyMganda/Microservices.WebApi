@@ -21,11 +21,15 @@ namespace Order.Microservice.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-                entity.Property(e => e.CustomerId).IsRequired();
-                entity.Property(e => e.ProductId).IsRequired();
+                entity.Property(e => e.CustomerId).IsRequired();                
                 entity.Property(e => e.Quantity).IsRequired();
                 entity.Property(e => e.Price).IsRequired();
                 entity.Property(e => e.OrderDate).IsRequired();
+
+                entity.Property(e => e.ProductIds).IsRequired().HasConversion(
+                v => string.Join(',', v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(Guid.Parse).ToList()
+                );
             });
 
             base.OnModelCreating(modelBuilder);
