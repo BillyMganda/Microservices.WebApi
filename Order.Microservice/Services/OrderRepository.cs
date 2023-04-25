@@ -39,9 +39,9 @@ namespace Order.Microservice.Services
             return result;
         }
 
-        public async Task<OrderEntity> GetByOrderDateAsync(DateTime date)
+        public async Task<List<OrderEntity>> GetByOrderDateAsync(DateTime date)
         {
-            var result = await _context.Orders.FindAsync(date);
+            var result = await _context.Orders.Where(x => x.OrderDate == date).ToListAsync();
             return result;
         }
 
