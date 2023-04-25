@@ -59,5 +59,17 @@ namespace Order.Microservice.Controllers
             }
             return Ok(order);
         }
+
+        [HttpGet("{orderdate}")]
+        public async Task<ActionResult<GetOrderDto>> GetOrderByOrderDate(DateTime date)
+        {
+            var query = new GetOrderByDateQuery { Date = date };
+            var order = await _mediator.Send(query);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
     }
 }
