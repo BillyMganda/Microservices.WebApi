@@ -71,5 +71,13 @@ namespace Order.Microservice.Controllers
             }
             return Ok(order);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> AddOrder([FromBody] PostOrderCommand command)
+        {
+            var OrderId = await _mediator.Send(command);
+
+            return Ok(OrderId);
+        }
     }
 }
