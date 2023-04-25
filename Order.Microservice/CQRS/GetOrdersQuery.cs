@@ -3,7 +3,7 @@ using Order.Microservice.DTOs;
 
 namespace Order.Microservice.CQRS
 {
-    public class GetOrdersQuery : IRequest<GetOrderDto>
+    public class GetOrdersQuery : IRequest<List<GetOrderDto>>
     {
     }
 }
