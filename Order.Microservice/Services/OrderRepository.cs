@@ -23,7 +23,7 @@ namespace Order.Microservice.Services
         public async Task<OrderEntity> DeleteAsync(OrderEntity entity)
         {
             var result = await _context.Orders.FirstOrDefaultAsync(x => x.Id == entity.Id);
-            _context.Orders.Remove(result);
+            _context.Orders.Remove(result!);
             await _context.SaveChangesAsync();
             return result;
         }
