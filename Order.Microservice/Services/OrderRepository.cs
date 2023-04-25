@@ -12,9 +12,12 @@ namespace Order.Microservice.Services
             _context = dbContext;
         }
 
-        public Task<OrderEntity> CreateAsync(List<OrderEntity> entities)
+        public async Task<OrderEntity> CreateAsync(List<OrderEntity> entities)
         {
-            throw new NotImplementedException();
+            await _context.Orders.AddRangeAsync(entities);
+            await _context.SaveChangesAsync();
+
+            return entities.FirstOrDefault();
         }
 
         public Task<OrderEntity> DeleteAsync(OrderEntity entity)
