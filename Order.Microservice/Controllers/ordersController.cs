@@ -79,5 +79,19 @@ namespace Order.Microservice.Controllers
 
             return Ok(OrderId);
         }
+
+        [HttpDelete("{orderid}")]
+        public async Task<IActionResult> DeleteOrder(Guid orderid)
+        {
+            try
+            {
+                await _mediator.Send(new DeleteOrderCommand { OrderId = orderid });
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
     }
 }
