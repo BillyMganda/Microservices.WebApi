@@ -23,7 +23,7 @@ namespace Customer.Microservice.CQRS
             var customer = await _customerRepository.GetByIdAsync(request.Id);
             if (customer == null)
             {
-                throw new ArgumentException($"Customer with Id {request.Id} not found.");
+                throw new NotFoundException($"{customer!.FirstName}",$" with Id {request.Id} not found.");
             }
             await _customerRepository.DeleteAsync(customer);
         }
