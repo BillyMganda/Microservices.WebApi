@@ -176,8 +176,19 @@
           "Port": 5003
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/date",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/orders/date",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
     }
-
 
 
   ]
