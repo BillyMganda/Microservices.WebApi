@@ -1,4 +1,5 @@
 ﻿using Customer.Microservice.DTOs;
+using Customer.Microservice.Exceptions;
 using Customer.Microservice.Services;
 using MediatR;
 
@@ -15,6 +16,10 @@ namespace Customer.Microservice.CQRS
         public async Task<List<GetCustomerDto>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
         {
             var customers = await _customerRepository.GetAllAsync();
+            if (customers == null)
+            {
+                throw new NotFoundException($"{customers}", $" with details {request} not found.");
+            }
             var result = customers.Select(c => new GetCustomerDto
             {
                 Id = c.Id,
