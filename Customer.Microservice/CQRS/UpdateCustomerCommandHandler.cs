@@ -1,4 +1,5 @@
 ﻿using Customer.Microservice.Services;
+using Customer.Microservice.Validations;
 using MediatR;
 
 namespace Customer.Microservice.CQRS
@@ -13,6 +14,11 @@ namespace Customer.Microservice.CQRS
 
         public async Task<string> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
+            var validator = new UpdateCustomerCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
+            if (validationResult.IsValid == false)
+                throw new Exception();
+
             var customer = await _customerRepository.GetByIdAsync(request.Id);
             if (customer == null)
             {
