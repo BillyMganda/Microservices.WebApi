@@ -42,3 +42,5 @@ This will start the API gateway and all three microservices. You can then make r
 - MS-SQL Server
 - MongoDB
 - Ocelot
+- CQRS(MediatR)
+- FluentValidation
