@@ -1,25 +1,24 @@
+using Order.Microservice.Models;
+using Order.Microservice.Services;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.Configure<OrdersDatabaseSettings>(builder.Configuration.GetSection("MicroservicesOrderDatabase"));
 
-// Configure the HTTP request pipeline.
+
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

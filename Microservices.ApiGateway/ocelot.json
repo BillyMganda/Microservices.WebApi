@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5003"
+    "BaseUrl": "http://localhost:5004"
   },
   "Routes": [
 
@@ -126,10 +126,93 @@
           "Port": 5002
         }
       ]
-    }
+    },
 
     // Orders
-
+    {
+      "UpstreamPathTemplate": "/gateway/orders",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/get-by-orderid/{orderid}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/orders/get-by-orderid/{orderid}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/get-by-customerid/{customerid}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/orders/get-by-customerid/{customerid}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/get-by-productid/{productid}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/orders/get-by-productid/{productid}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/{date}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/orders/{date}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/orders",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/{orderId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/orders/{orderId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
+    }
 
   ]
 }

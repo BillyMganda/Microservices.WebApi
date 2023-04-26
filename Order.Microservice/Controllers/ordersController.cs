@@ -24,7 +24,8 @@ namespace Order.Microservice.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("{orderid}")]
+        [HttpGet]
+        [Route("get-by-orderid/{orderid}")]
         public async Task<ActionResult<GetOrderDto>> GetOrderByOrderId(Guid OrderId)
         {
             var query = new GetOrderByOrderIdQuery { OrderId = OrderId };
@@ -36,10 +37,11 @@ namespace Order.Microservice.Controllers
             return Ok(order);
         }
 
-        [HttpGet("{customerid}")]
-        public async Task<ActionResult<GetOrderDto>> GetOrderByCustomerId(Guid CustomerId)
+        [HttpGet]
+        [Route("get-by-customerid/{customerid}")]
+        public async Task<ActionResult<GetOrderDto>> GetOrderByCustomerId(Guid customerId)
         {
-            var query = new GetOrderByCustomerIdQuery { CustomerId = CustomerId };
+            var query = new GetOrderByCustomerIdQuery { CustomerId = customerId };
             var order = await _mediator.Send(query);
             if (order == null)
             {
@@ -48,10 +50,11 @@ namespace Order.Microservice.Controllers
             return Ok(order);
         }
 
-        [HttpGet("{productid}")]
-        public async Task<ActionResult<GetOrderDto>> GetOrderByProductId(Guid ProductId)
+        [HttpGet]
+        [Route("get-by-productid/{productid}")]
+        public async Task<ActionResult<GetOrderDto>> GetOrderByProductId(Guid productId)
         {
-            var query = new GetOrderByProductIdQuery { ProductId = ProductId };
+            var query = new GetOrderByProductIdQuery { ProductId = productId };
             var order = await _mediator.Send(query);
             if (order == null)
             {
@@ -60,7 +63,7 @@ namespace Order.Microservice.Controllers
             return Ok(order);
         }
 
-        [HttpGet("{orderdate}")]
+        [HttpGet("{date}")]
         public async Task<ActionResult<GetOrderDto>> GetOrderByOrderDate(DateTime date)
         {
             var query = new GetOrderByDateQuery { Date = date };
@@ -80,12 +83,12 @@ namespace Order.Microservice.Controllers
             return Ok(OrderId);
         }
 
-        [HttpDelete("{orderid}")]
-        public async Task<IActionResult> DeleteOrder(Guid orderid)
+        [HttpDelete("{orderId}")]
+        public async Task<IActionResult> DeleteOrder(Guid orderId)
         {
             try
             {
-                await _mediator.Send(new DeleteOrderCommand { OrderId = orderid });
+                await _mediator.Send(new DeleteOrderCommand { OrderId = orderId });
                 return Ok();
             }
             catch (Exception)
