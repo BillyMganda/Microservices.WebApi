@@ -28,7 +28,7 @@ namespace Customer.Microservice.Validations
 
             RuleFor(m => m.PhoneNumber)
             .NotEmpty().WithMessage("Phone number is required.")
-            .Matches(@"^\+?\d{1,3}[\s.-]?\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$")
+            .Matches(@"^\+?254\d{9}$|^(07|7)\d{8}$")
             .WithMessage("Invalid phone number format.");
 
             RuleFor(c => c.City)                
