@@ -1,4 +1,3 @@
-using Order.Microservice.Data;
 using Order.Microservice.Models;
 using Order.Microservice.Services;
 using System.Reflection;
