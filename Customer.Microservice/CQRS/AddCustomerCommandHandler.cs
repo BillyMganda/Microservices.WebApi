@@ -1,5 +1,6 @@
 ﻿using Customer.Microservice.Models;
 using Customer.Microservice.Services;
+using Customer.Microservice.Validations;
 using MediatR;
 
 namespace Customer.Microservice.CQRS
@@ -14,6 +15,11 @@ namespace Customer.Microservice.CQRS
 
         public async Task<Guid> Handle(AddCustomerCommand request, CancellationToken cancellationToken)
         {
+            var validator = new AddCustomerCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
+            if (validationResult.IsValid == false)
+                throw new Exception();
+
             var customerEntity = new CustomerEntity
             {
                 Id = Guid.NewGuid(),
