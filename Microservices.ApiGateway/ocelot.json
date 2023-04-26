@@ -142,9 +142,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/get-by-orderid/{Id}",
+      "UpstreamPathTemplate": "/gateway/orders/get-by-orderid/{orderid}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/orders/get-by-orderid/{Id}",
+      "DownstreamPathTemplate": "/api/orders/get-by-orderid/{orderid}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -154,9 +154,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/get-by-customerid/{Id}",
+      "UpstreamPathTemplate": "/gateway/orders/get-by-customerid/{customerid}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/orders/get-by-customerid/{Id}",
+      "DownstreamPathTemplate": "/api/orders/get-by-customerid/{customerid}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -166,9 +166,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/get-by-productid/{Id}",
+      "UpstreamPathTemplate": "/gateway/orders/get-by-productid/{productid}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/orders/get-by-productid/{Id}",
+      "DownstreamPathTemplate": "/api/orders/get-by-productid/{productid}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -178,9 +178,9 @@
       ]
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/date",
+      "UpstreamPathTemplate": "/gateway/orders/{date}",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/orders/date",
+      "DownstreamPathTemplate": "/api/orders/{date}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -200,8 +200,19 @@
           "Port": 5003
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/{orderId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/orders/{orderId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5003
+        }
+      ]
     }
-
 
   ]
 }
