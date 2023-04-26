@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Order.Microservice.Models;
 using Order.Microservice.Services;
+using Order.Microservice.Validations;
 
 namespace Order.Microservice.CQRS
 {
@@ -14,6 +15,11 @@ namespace Order.Microservice.CQRS
 
         public async Task<Guid> Handle(PostOrderCommand request, CancellationToken cancellationToken)
         {
+            var validator = new PostOrderCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
+            if (validationResult.IsValid == false)
+                throw new Exception();
+
             var OrderEntity = new OrderEntity
             {
                 Id = Guid.NewGuid(),
