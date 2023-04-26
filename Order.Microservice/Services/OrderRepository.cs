@@ -18,12 +18,13 @@ namespace Order.Microservice.Services
 
         public async Task<OrderEntity> CreateAsync(OrderEntity entities)
         {
-            
+            return await _ordersCollection.InsertOneAsync(entities);
         }
 
         public async Task<OrderEntity> DeleteAsync(OrderEntity entity)
         {
-            
+            var result = await _ordersCollection.DeleteOneAsync(x => x.Id == entity.Id);
+            return result.DeletedCount > 0 ? entity : null;
         }
 
         public async Task<IReadOnlyList<OrderEntity>> GetAllAsync()
