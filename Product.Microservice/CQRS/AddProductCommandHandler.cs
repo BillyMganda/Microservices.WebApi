@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Product.Microservice.Models;
 using Product.Microservice.Services;
+using Product.Microservice.Validations;
 
 namespace Product.Microservice.CQRS
 {
@@ -14,6 +15,11 @@ namespace Product.Microservice.CQRS
 
         public async Task<Guid> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
+            var validator = new AddProductCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
+            if (validationResult.IsValid == false)
+                throw new Exception();
+
             var ProductEntity = new ProductEntity
             {
                 Id = Guid.NewGuid(),
