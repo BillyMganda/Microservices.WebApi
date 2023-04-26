@@ -1,6 +1,16 @@
-﻿namespace Customer.Microservice.Exceptions
+﻿using FluentValidation.Results;
+
+namespace Customer.Microservice.Exceptions
 {
-    public class ValidationException
+    public class ValidationException : ApplicationException
     {
+        public List<string> Errors { get; set; } = new List<string>();
+        public ValidationException(ValidationResult validationResult)
+        {
+            foreach (var error in validationResult.Errors)
+            {
+                Errors.Add(error.ErrorMessage);
+            }
+        }
     }
 }
