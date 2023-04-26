@@ -17,8 +17,8 @@ namespace Order.Microservice.CQRS
             var OrderEntity = new OrderEntity
             {
                 Id = Guid.NewGuid(),
-                CustomerId = Guid.NewGuid(),
-                ProductIds = request.ProductIds,
+                CustomerId = Guid.NewGuid(), //TODO: Fix this with logged in customer id from customer microservice
+                ProductIds = request.ProductIds, //TODO: Fix this with real product id from product microservice
                 OrderDate = DateTime.Now,
                 Price = request.Price,
                 Quantity = request.Quantity,
