@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Order.Microservice.Data;
 using Order.Microservice.Models;
-using SharpCompress.Common;
 
 namespace Order.Microservice.Services
 {
