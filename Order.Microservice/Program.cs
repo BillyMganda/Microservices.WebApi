@@ -11,7 +11,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.Configure<OrdersDatabaseSettings>(builder.Configuration.GetSection("MicroservicesOrderDatabase"));
-//builder.Services.AddDbContext<OrderDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")));
 
 
 var app = builder.Build();
