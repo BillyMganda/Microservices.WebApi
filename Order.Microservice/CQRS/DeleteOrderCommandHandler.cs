@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Order.Microservice.Services;
+using Order.Microservice.Validations;
 
 namespace Order.Microservice.CQRS
 {
@@ -13,6 +14,11 @@ namespace Order.Microservice.CQRS
 
         public async Task Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
+            var validator = new DeleteOrderCommandValidator();
+            var validationResult = await validator.ValidateAsync(request);
+            if (validationResult.IsValid == false)
+                throw new Exception();
+
             var order = await _orderRepository.GetByOrderIdAsync(request.OrderId);
             if (order == null)
             {
