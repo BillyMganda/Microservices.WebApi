@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Order.Microservice.Data;
 using Order.Microservice.Models;
+using SharpCompress.Common;
 
 namespace Order.Microservice.Services
 {
@@ -16,9 +17,10 @@ namespace Order.Microservice.Services
             _ordersCollection = mongoDatabase.GetCollection<OrderEntity>(OrderStoreDatabaseSettings.Value.OrdersCollectionName);
         }
 
-        public async Task<OrderEntity> CreateAsync(OrderEntity entities)
+        public async Task<OrderEntity> CreateAsync(OrderEntity entity)
         {
-            return await _ordersCollection.InsertOneAsync(entities);
+            await _ordersCollection.InsertOneAsync(entity);
+            return entity;
         }
 
         public async Task<OrderEntity> DeleteAsync(OrderEntity entity)
