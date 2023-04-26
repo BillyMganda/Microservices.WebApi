@@ -6,7 +6,7 @@ namespace Order.Microservice.Models
     public class OrderEntity
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
         [BsonElement("CustomerId")]
         public Guid CustomerId { get; set; }
