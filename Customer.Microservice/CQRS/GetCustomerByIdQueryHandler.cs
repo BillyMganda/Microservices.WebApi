@@ -1,4 +1,5 @@
 ﻿using Customer.Microservice.DTOs;
+using Customer.Microservice.Exceptions;
 using Customer.Microservice.Services;
 using MediatR;
 
@@ -17,7 +18,7 @@ namespace Customer.Microservice.CQRS
             var customer = await _customerRepository.GetByIdAsync(request.Id);
             if (customer == null)
             {
-                throw new Exception($"Customer with id {request.Id} not found.");
+                throw new NotFoundException($"{customer!.FirstName}", $"with id {request.Id} not found.");
             }
 
             var result = new GetCustomerDto
