@@ -55,5 +55,19 @@ namespace User.Microservice.Controllers
                 throw;
             }
         }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ChangePasswordCommand command)
+        {
+            try
+            {
+                var user = await _mediator.Send(command);
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
