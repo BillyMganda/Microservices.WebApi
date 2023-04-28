@@ -15,6 +15,6 @@ namespace User.Microservice.Services
         Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt);
         Task<GetUserDto> DeactivateUserAsync(Guid Id);
         void SendRegistrationEmail(EmailDto dto);
-        void SendForgotPasswordEmail(EmailDto dto);
+        void SendForgotPasswordEmail(string Email, string Token);
     }
 }

@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -172,9 +174,27 @@ namespace User.Microservice.Services
             return GetDto;
         }
 
-        public void SendForgotPasswordEmail(EmailDto dto)
+        public void SendForgotPasswordEmail(string Email, string Token)
         {
-            throw new NotImplementedException();
+            string EmailFrom = _configuration.GetSection("EmailSettings:From").Value!;
+            string Port = _configuration.GetSection("EmailSettings:Port").Value!;
+            string EmailPassword = _configuration.GetSection("EmailSettings:Password").Value!;
+            string SmtpServer = _configuration.GetSection("EmailSettings:SMTP").Value!;
+
+            MailMessage message = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
+            message.From = new MailAddress(EmailFrom);
+            message.To.Add(new MailAddress(Email));
+            message.Subject = "Forgot Password";
+            message.IsBodyHtml = true;
+            message.Body = $"Dear <b>{Email}</b>, <br>a request to reset your password has been made on your account, use this token <b>{Token}</b> to reset your password";
+            smtp.Port = Convert.ToInt32(Port);
+            smtp.Host = SmtpServer;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(EmailFrom, EmailPassword);
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Send(message);
         }
 
         public void SendRegistrationEmail(EmailDto dto)
