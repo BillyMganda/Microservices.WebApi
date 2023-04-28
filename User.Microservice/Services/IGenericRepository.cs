@@ -2,18 +2,18 @@
 
 namespace User.Microservice.Services
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository
     {
-        Task<T> GetUserByIdAsync(Guid Id);
-        Task<T> GetUserByEmailAsync(Guid Id);
-        Task<T> CreateRefreshToken();
+        Task<GetUserDto> GetUserByIdAsync(Guid Id);
+        Task<GetUserDto> GetUserByEmailAsync(Guid Id);
+        Task<GetUserDto> CreateRefreshToken();
         void CreatePasswordHash(string password, out byte[] PasswordHash, out byte[] PasswordSalt);
         bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt);        
         string CreateJWTToken(LoginDto dto);
         string ForgotPaswordToken();
-        Task<T> CreateUserAsync(T entity);
-        Task<T> ChangeUserPasswordAsync(T entity);
-        Task<T> DeactivateUserAsync(T entity);
+        Task<GetUserDto> CreateUserAsync(AddUserDto entity);
+        Task<GetUserDto> ChangeUserPasswordAsync(T entity);
+        Task<GetUserDto> DeactivateUserAsync(Guid Id);
         void SendRegistrationEmail(EmailDto dto);
         void SendForgotPasswordEmail(EmailDto dto);
     }

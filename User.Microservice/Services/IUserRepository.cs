@@ -2,7 +2,7 @@
 
 namespace User.Microservice.Services
 {
-    public interface IUserRepository : IGenericRepository<UserModel>
+    public interface IUserRepository
     {
     }
 }
