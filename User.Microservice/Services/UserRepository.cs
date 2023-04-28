@@ -8,6 +8,7 @@ using System.Text;
 using User.Microservice.Data;
 using User.Microservice.DTOs;
 using User.Microservice.Exceptions;
+using User.Microservice.Models;
 
 namespace User.Microservice.Services
 {
@@ -78,9 +79,36 @@ namespace User.Microservice.Services
             return new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public Task<GetUserDto> CreateUserAsync(AddUserDto entity)
+        public async Task<GetUserDto> CreateUserAsync(AddUserDto dto)
         {
-            throw new NotImplementedException();
+            CreatePasswordHash(dto.Password, out byte[] PasswordHash, out byte[] PasswordSalt);
+
+            var NewUser = new UserModel
+            {
+                Id = Guid.NewGuid(),
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                PasswordHash = PasswordHash,
+                PasswordSalt = PasswordSalt,
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                ForgotPasswordToken = "",
+                IsTermsAgreed = true,
+                RefreshToken = CreateRefreshToken(),
+            };
+            _dbContext.Users.Add(NewUser);
+            await _dbContext.SaveChangesAsync();
+
+            var GetDto = new GetUserDto
+            {
+                Id = NewUser.Id,
+                FirstName = NewUser.FirstName,
+                LastName = NewUser.LastName,
+                Email = NewUser.Email,
+                CreatedDate = NewUser.CreatedDate,
+            };
+            return GetDto;
         }
 
         public Task<GetUserDto> DeactivateUserAsync(Guid Id)
