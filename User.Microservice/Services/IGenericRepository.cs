@@ -12,7 +12,7 @@ namespace User.Microservice.Services
         string CreateJWTToken(LoginDto dto);
         string ForgotPaswordToken();
         Task<GetUserDto> CreateUserAsync(AddUserDto entity);
-        Task<GetUserDto> ChangeUserPasswordAsync(T entity);
+        Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity);
         Task<GetUserDto> DeactivateUserAsync(Guid Id);
         void SendRegistrationEmail(EmailDto dto);
         void SendForgotPasswordEmail(EmailDto dto);
