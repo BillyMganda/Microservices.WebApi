@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Product.Microservice.Exceptions;
 using Product.Microservice.Models;
 using Product.Microservice.Services;
 using Product.Microservice.Validations;
@@ -18,7 +19,7 @@ namespace Product.Microservice.CQRS
             var validator = new AddProductCommandValidator();
             var validationResult = await validator.ValidateAsync(request);
             if (validationResult.IsValid == false)
-                throw new Exception();
+                throw new ValidationException(validationResult);
 
             var ProductEntity = new ProductEntity
             {
