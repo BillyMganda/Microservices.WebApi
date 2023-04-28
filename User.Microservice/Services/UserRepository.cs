@@ -113,7 +113,7 @@ namespace User.Microservice.Services
 
         public async Task<GetUserDto> DeactivateUserAsync(Guid Id)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == Id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
             if (user == null)
                 throw new NotFoundException(nameof(user), Id);
 
@@ -140,7 +140,7 @@ namespace User.Microservice.Services
 
         public async Task<GetUserDto> GetUserByEmailAsync(string Email)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == Email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
             if (user == null)
                 throw new NotFoundException(nameof(user), Email);
 
@@ -155,9 +155,21 @@ namespace User.Microservice.Services
             return GetDto;
         }
 
-        public Task<GetUserDto> GetUserByIdAsync(Guid Id)
+        public async Task<GetUserDto> GetUserByIdAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == Id);
+            if (user == null)
+                throw new NotFoundException(nameof(user), Id);
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = user.CreatedDate,
+            };
+            return GetDto;
         }
 
         public void SendForgotPasswordEmail(EmailDto dto)
