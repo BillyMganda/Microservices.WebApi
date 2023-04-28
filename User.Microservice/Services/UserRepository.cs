@@ -239,5 +239,36 @@ namespace User.Microservice.Services
                 return ComputedHash.SequenceEqual(PasswordHash);
             }
         }
+
+        public async Task<GetUserDto> UpdateForgotPasswordTokenInDb(string Email, string Token)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
+            if (user == null)
+                throw new NotFoundException(nameof(user), Email);
+
+            user.ForgotPasswordToken = Token;
+            await _dbContext.SaveChangesAsync();
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = user.CreatedDate,
+            };
+            return GetDto;
+        }
+
+        public async void ForgotPasswordControllerMethod(string Email)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
+            if(user == null)
+                throw new NotFoundException(nameof(user), Email);
+
+            string Token = ForgotPaswordToken();
+            await UpdateForgotPasswordTokenInDb(Email, Token);
+            //TODO: SendForgotPasswordEmail
+        }
     }
 }
