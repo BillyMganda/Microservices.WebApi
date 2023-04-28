@@ -199,7 +199,25 @@ namespace User.Microservice.Services
 
         public void SendRegistrationEmail(EmailDto dto)
         {
-            throw new NotImplementedException();
+            string EmailFrom = _configuration.GetSection("EmailSettings:From").Value!;
+            string Port = _configuration.GetSection("EmailSettings:Port").Value!;
+            string EmailPassword = _configuration.GetSection("EmailSettings:Password").Value!;
+            string SmtpServer = _configuration.GetSection("EmailSettings:SMTP").Value!;
+
+            MailMessage message = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
+            message.From = new MailAddress(EmailFrom);
+            message.To.Add(new MailAddress(dto.Email));
+            message.Subject = "User Registration";
+            message.IsBodyHtml = true;
+            message.Body = $"Dear <b>{dto.Name}</b>, <br> Thank you for your registration to our system";
+            smtp.Port = Convert.ToInt32(Port);
+            smtp.Host = SmtpServer;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(EmailFrom, EmailPassword);
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Send(message);
         }
 
         public bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt)
