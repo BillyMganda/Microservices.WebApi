@@ -12,5 +12,6 @@
         public DateTime LastModifiedDate { get; set; }
         public string ForgotPasswordToken { get; set; } = string.Empty;
         public bool IsTermsAgreed { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
     }
 }
