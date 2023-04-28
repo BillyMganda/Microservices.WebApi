@@ -112,6 +112,7 @@ namespace User.Microservice.Services
             };
             _dbContext.Users.Add(NewUser);
             await _dbContext.SaveChangesAsync();
+            //TODO: SendRegistrationEmail
 
             var GetDto = new GetUserDto
             {
