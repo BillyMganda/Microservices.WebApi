@@ -80,6 +80,18 @@ namespace User.Microservice.Services
             return new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public async Task<string> Login(LoginDto dto)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
+            if(user == null)
+                throw new NotFoundException(nameof(user), dto.Email);
+            bool IsCorrect = VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt);
+            if(IsCorrect == false)
+                throw new NotFoundException(nameof(user), dto.Email); //fix here
+            string Token = CreateJWTToken(dto);
+            return Token;
+        }
+
         public async Task<GetUserDto> CreateUserAsync(AddUserDto dto)
         {
             CreatePasswordHash(dto.Password, out byte[] PasswordHash, out byte[] PasswordSalt);

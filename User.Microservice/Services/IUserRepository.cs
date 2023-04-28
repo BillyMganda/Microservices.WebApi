@@ -11,6 +11,7 @@ namespace User.Microservice.Services
         bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt);
         string CreateJWTToken(LoginDto dto);
         string ForgotPaswordToken();
+        Task<string> Login(LoginDto dto);
         Task<GetUserDto> CreateUserAsync(AddUserDto entity);
         Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt);
         Task<GetUserDto> DeactivateUserAsync(Guid Id);
