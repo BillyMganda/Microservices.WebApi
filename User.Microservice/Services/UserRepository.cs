@@ -2,6 +2,7 @@
 using User.Microservice.Data;
 using User.Microservice.DTOs;
 using User.Microservice.Models;
+using User.Microservice.Exceptions;
 
 namespace User.Microservice.Services
 {
@@ -17,7 +18,7 @@ namespace User.Microservice.Services
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == entity.Token);
             if (user == null)
-                return NotFoundException();
+                throw new NotFoundException(nameof(user), entity.Token);
 
             user.PasswordHash = Hash;
             user.PasswordSalt = Salt;
