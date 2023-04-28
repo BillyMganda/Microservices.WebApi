@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Product.Microservice.DTOs;
+using Product.Microservice.Exceptions;
 using Product.Microservice.Services;
 
 namespace Product.Microservice.CQRS
@@ -18,7 +19,7 @@ namespace Product.Microservice.CQRS
 
             if (product == null)
             {
-                throw new Exception($"Product with id {request.Id} not found.");
+                throw new NotFoundException(nameof(GetProductByIdQuery), request.Id);
             }
 
             var result = new GetProductDto
