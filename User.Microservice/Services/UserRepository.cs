@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using User.Microservice.Data;
 using User.Microservice.DTOs;
@@ -62,7 +64,11 @@ namespace User.Microservice.Services
 
         public void CreatePasswordHash(string password, out byte[] PasswordHash, out byte[] PasswordSalt)
         {
-            throw new NotImplementedException();
+            using (var hmac = new HMACSHA512())
+            {
+                PasswordSalt = hmac.Key;
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
         }
 
         public Task<GetUserDto> CreateRefreshToken()
