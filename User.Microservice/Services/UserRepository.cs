@@ -111,9 +111,24 @@ namespace User.Microservice.Services
             return GetDto;
         }
 
-        public Task<GetUserDto> DeactivateUserAsync(Guid Id)
+        public async Task<GetUserDto> DeactivateUserAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == Id);
+            if (user == null)
+                throw new NotFoundException(nameof(user), Id);
+
+            user.IsTermsAgreed = false;
+            await _dbContext.SaveChangesAsync();
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = user.CreatedDate,
+            };
+            return GetDto;
         }
 
         public string ForgotPaswordToken()
