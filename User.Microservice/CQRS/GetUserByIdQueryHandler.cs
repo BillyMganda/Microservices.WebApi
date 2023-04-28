@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using User.Microservice.DTOs;
+using User.Microservice.Exceptions;
 using User.Microservice.Services;
 
 namespace User.Microservice.CQRS
