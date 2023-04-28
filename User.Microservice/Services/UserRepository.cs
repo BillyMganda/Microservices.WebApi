@@ -184,7 +184,11 @@ namespace User.Microservice.Services
 
         public bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt)
         {
-            throw new NotImplementedException();
+            using (var hmac = new HMACSHA512(PasswordSalt))
+            {
+                var ComputedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return ComputedHash.SequenceEqual(PasswordHash);
+            }
         }
     }
 }
