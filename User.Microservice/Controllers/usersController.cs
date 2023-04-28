@@ -14,11 +14,32 @@ namespace User.Microservice.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterUser([FromBody] CreateUserCommand command)
         {
-            var userDto = await _mediator.Send(command);
-            return Ok(userDto);
+            try
+            {
+                var userDto = await _mediator.Send(command);
+                return Ok(userDto);
+            }
+            catch (Exception)
+            {
+                throw;
+            }            
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> UserLogin([FromBody] LoginCommand command)
+        {
+            try
+            {
+                var Jwt = await _mediator.Send(command);
+                return Ok(Jwt);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
