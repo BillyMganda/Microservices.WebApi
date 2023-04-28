@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using User.Microservice.Data;
 using User.Microservice.DTOs;
-using User.Microservice.Models;
 using User.Microservice.Exceptions;
 
 namespace User.Microservice.Services
@@ -9,9 +12,11 @@ namespace User.Microservice.Services
     public class UserRepository : IUserRepository
     {
         private readonly UserDbContext _dbContext;
-        public UserRepository(UserDbContext dbContext)
+        private readonly IConfiguration _configuration;
+        public UserRepository(UserDbContext dbContext, IConfiguration configuration)
         {
             _dbContext = dbContext;
+            _configuration = configuration;
         }
 
         public async Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt)
@@ -38,7 +43,21 @@ namespace User.Microservice.Services
 
         public string CreateJWTToken(LoginDto dto)
         {
-            throw new NotImplementedException();
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, dto.Email)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Token").Value!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var token = new JwtSecurityToken
+                (
+                claims: claims,
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: creds
+                );
+            string JwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            return JwtToken;
         }
 
         public void CreatePasswordHash(string password, out byte[] PasswordHash, out byte[] PasswordSalt)
