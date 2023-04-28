@@ -86,8 +86,8 @@ namespace User.Microservice.Services
             if(user == null)
                 throw new NotFoundException(nameof(user), dto.Email);
             bool IsCorrect = VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt);
-            if(IsCorrect == false)
-                throw new NotFoundException(nameof(user), dto.Email); //fix here
+            if (IsCorrect == false)
+                throw new InvalidCredentialsException("Invalid credentials");
             string Token = CreateJWTToken(dto);
             return Token;
         }
