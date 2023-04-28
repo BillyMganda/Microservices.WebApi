@@ -6,7 +6,7 @@ namespace User.Microservice.Services
     {
         Task<GetUserDto> GetUserByIdAsync(Guid Id);
         Task<GetUserDto> GetUserByEmailAsync(Guid Id);
-        Task<GetUserDto> CreateRefreshToken();
+        string CreateRefreshToken();
         void CreatePasswordHash(string password, out byte[] PasswordHash, out byte[] PasswordSalt);
         bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt);
         string CreateJWTToken(LoginDto dto);
