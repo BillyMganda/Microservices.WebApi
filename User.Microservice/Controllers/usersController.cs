@@ -41,5 +41,19 @@ namespace User.Microservice.Controllers
                 throw;
             }
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
+        {
+            try
+            {
+                await _mediator.Send(command);
+                return Ok("Request successful, check your email for password reset token");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
