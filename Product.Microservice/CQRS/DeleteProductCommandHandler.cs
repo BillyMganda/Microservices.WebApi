@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Product.Microservice.Exceptions;
 using Product.Microservice.Services;
 using Product.Microservice.Validations;
 
@@ -17,12 +18,12 @@ namespace Product.Microservice.CQRS
             var validator = new DeleteProductCommandValidator();
             var validationResult = await validator.ValidateAsync(request);
             if (validationResult.IsValid == false)
-                throw new Exception();
+                throw new ValidationException(validationResult);
 
             var product = await _productRepository.GetByIdAsync(request.Id);
             if (product == null)
             {
-                throw new ArgumentException($"Product with Id {request.Id} not found.");
+                throw new NotFoundException(nameof(DeleteProductCommand), request.Id);
             }
             await _productRepository.DeleteAsync(product);
         }
