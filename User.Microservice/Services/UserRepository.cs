@@ -1,4 +1,5 @@
-﻿using User.Microservice.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using User.Microservice.Data;
 using User.Microservice.DTOs;
 using User.Microservice.Models;
 
@@ -12,9 +13,26 @@ namespace User.Microservice.Services
             _dbContext = dbContext;
         }
 
-        public Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity)
+        public async Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == entity.Token);
+            if (user == null)
+                return NotFoundException();
+
+            user.PasswordHash = Hash;
+            user.PasswordSalt = Salt;
+            user.ForgotPasswordToken = "";
+            await _dbContext.SaveChangesAsync();
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = DateTime.Now,
+            };
+            return GetDto;
         }
 
         public string CreateJWTToken(LoginDto dto)
