@@ -138,9 +138,21 @@ namespace User.Microservice.Services
             return new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public Task<GetUserDto> GetUserByEmailAsync(Guid Id)
+        public async Task<GetUserDto> GetUserByEmailAsync(string Email)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == Email);
+            if (user == null)
+                throw new NotFoundException(nameof(user), Email);
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = user.CreatedDate,
+            };
+            return GetDto;
         }
 
         public Task<GetUserDto> GetUserByIdAsync(Guid Id)

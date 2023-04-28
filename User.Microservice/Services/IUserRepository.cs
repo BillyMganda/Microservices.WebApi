@@ -5,7 +5,7 @@ namespace User.Microservice.Services
     public interface IUserRepository
     {
         Task<GetUserDto> GetUserByIdAsync(Guid Id);
-        Task<GetUserDto> GetUserByEmailAsync(Guid Id);
+        Task<GetUserDto> GetUserByEmailAsync(string Email);
         string CreateRefreshToken();
         void CreatePasswordHash(string password, out byte[] PasswordHash, out byte[] PasswordSalt);
         bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt);
