@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Order.Microservice.DTOs;
+using Order.Microservice.Exceptions;
 using Order.Microservice.Services;
 
 namespace Order.Microservice.CQRS
@@ -18,7 +19,7 @@ namespace Order.Microservice.CQRS
             var order = await _orderRepository.GetByCustomerIdAsync(request.CustomerId);
             if (order == null)
             {
-                throw new Exception($"Order with  customer id {request.CustomerId} not found.");
+                throw new NotFoundException(nameof(GetOrderByCustomerIdQuery), request.CustomerId);
             }
 
             var result = new GetOrderDto

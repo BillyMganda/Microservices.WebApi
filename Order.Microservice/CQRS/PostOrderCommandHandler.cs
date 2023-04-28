@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Order.Microservice.Exceptions;
 using Order.Microservice.Models;
 using Order.Microservice.Services;
 using Order.Microservice.Validations;
@@ -18,7 +19,7 @@ namespace Order.Microservice.CQRS
             var validator = new PostOrderCommandValidator();
             var validationResult = await validator.ValidateAsync(request);
             if (validationResult.IsValid == false)
-                throw new Exception();
+                throw new ValidationException(validationResult);
 
             var OrderEntity = new OrderEntity
             {
