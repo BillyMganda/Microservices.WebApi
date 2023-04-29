@@ -253,10 +253,12 @@ namespace User.Microservice.Services
         public async Task<GetUserDto> ChangeUserPasswordAsync(string Token, string NewPassword, string ConfirmNewPassword)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == Token);
-            if (user == null)
+            if (user == null || user.ForgotPasswordToken == "")
                 throw new NotFoundException(nameof(user), Token);
 
-            //CreatePasswordHash();
+            CreatePasswordHash(NewPassword, out byte[] PasswordHash,  out byte[] PasswordSalt);
+            user.PasswordHash = PasswordHash;
+            user.PasswordSalt = PasswordSalt;
             user.ForgotPasswordToken = "";
             await _dbContext.SaveChangesAsync();
 
