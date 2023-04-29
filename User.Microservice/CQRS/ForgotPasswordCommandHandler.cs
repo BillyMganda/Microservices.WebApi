@@ -1,20 +1,20 @@
 ﻿using MediatR;
+using User.Microservice.DTOs;
 using User.Microservice.Services;
 
 namespace User.Microservice.CQRS
 {
-    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand>
+    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, GetUserDto>
     {
         private readonly IUserRepository _userRepository;
         public ForgotPasswordCommandHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-
-        public Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
+        async Task<GetUserDto> IRequestHandler<ForgotPasswordCommand, GetUserDto>.Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
         {
-            _userRepository.ForgotPasswordControllerMethod(request.Email);    
-            return Task.CompletedTask;
+            var user = await _userRepository.ForgotPasswordControllerMethod(request.Email);
+            return user;
         }
     }
 }
