@@ -47,7 +47,7 @@ namespace User.Microservice.Controllers
         {
             try
             {
-                await _mediator.Send(command);
+                var user = await _mediator.Send(command);
                 return Ok("Request successful, check your email for password reset token");
             }
             catch (Exception)
