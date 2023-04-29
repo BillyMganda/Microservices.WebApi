@@ -21,29 +21,7 @@ namespace User.Microservice.Services
         {
             _dbContext = dbContext;
             _configuration = configuration;
-        }
-
-        public async Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == entity.Token);
-            if (user == null)
-                throw new NotFoundException(nameof(user), entity.Token);
-
-            user.PasswordHash = Hash;
-            user.PasswordSalt = Salt;
-            user.ForgotPasswordToken = "";
-            await _dbContext.SaveChangesAsync();
-
-            var GetDto = new GetUserDto
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                CreatedDate = DateTime.Now,
-            };
-            return GetDto;
-        }
+        }              
 
         public string CreateJWTToken(LoginDto dto)
         {
@@ -94,6 +72,10 @@ namespace User.Microservice.Services
 
         public async Task<GetUserDto> CreateUserAsync(AddUserDto dto)
         {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
+            if (user != null)
+                throw new UserExistsException("user exists, log in instead");
+
             CreatePasswordHash(dto.Password, out byte[] PasswordHash, out byte[] PasswordSalt);
 
             var NewUser = new UserModel
@@ -145,12 +127,7 @@ namespace User.Microservice.Services
             return GetDto;
         }
 
-        public string ForgotPaswordToken()
-        {
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
-        }
+        
 
         public async Task<GetUserDto> GetUserByEmailAsync(string Email)
         {
@@ -240,13 +217,25 @@ namespace User.Microservice.Services
                 return ComputedHash.SequenceEqual(PasswordHash);
             }
         }
+                
+        public string ForgotPaswordToken()
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        
 
-        public async Task<GetUserDto> UpdateForgotPasswordTokenInDb(string Email, string Token)
+        public async Task<GetUserDto> ForgotPasswordControllerMethod(string Email)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
-            if (user == null)
+            if(user == null)
                 throw new NotFoundException(nameof(user), Email);
 
+            string Token = ForgotPaswordToken();
+
+            // TODO: SendForgotPasswordEmail
+            // TODO: Logging passsword change request
             user.ForgotPasswordToken = Token;
             await _dbContext.SaveChangesAsync();
 
@@ -261,15 +250,29 @@ namespace User.Microservice.Services
             return GetDto;
         }
 
-        public async void ForgotPasswordControllerMethod(string Email)
+        public async Task<GetUserDto> ChangeUserPasswordAsync(string Token, string NewPassword, string ConfirmNewPassword)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
-            if(user == null)
-                throw new NotFoundException(nameof(user), Email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == Token);
+            if (user == null || user.ForgotPasswordToken == "")
+                throw new NotFoundException(nameof(user), Token);
 
-            string Token = ForgotPaswordToken();
-            await UpdateForgotPasswordTokenInDb(Email, Token);
-            //TODO: SendForgotPasswordEmail
+            CreatePasswordHash(NewPassword, out byte[] PasswordHash,  out byte[] PasswordSalt);
+            user.PasswordHash = PasswordHash;
+            user.PasswordSalt = PasswordSalt;
+            user.ForgotPasswordToken = "";
+            user.LastModifiedDate = DateTime.Now;
+            await _dbContext.SaveChangesAsync();
+            // TODO: Logging passsword change
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = DateTime.Now,
+            };
+            return GetDto;
         }
     }
 }

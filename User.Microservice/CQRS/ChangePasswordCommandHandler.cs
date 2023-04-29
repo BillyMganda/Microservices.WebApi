@@ -15,7 +15,7 @@ namespace User.Microservice.CQRS
 
         public async Task<GetUserDto> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.ChangeUserPasswordAsync(request.changePassword, request.PasswordHash, request.PasswordSalt);
+            var user = await _userRepository.ChangeUserPasswordAsync(request.Token, request.NewPassword, request.ConfirmNewPassword);
             return user;
         }
     }
