@@ -94,6 +94,10 @@ namespace User.Microservice.Services
 
         public async Task<GetUserDto> CreateUserAsync(AddUserDto dto)
         {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
+            if (user != null)
+                throw new UserExistsException("user exists, log in instead");
+
             CreatePasswordHash(dto.Password, out byte[] PasswordHash, out byte[] PasswordSalt);
 
             var NewUser = new UserModel
