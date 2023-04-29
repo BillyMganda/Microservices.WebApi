@@ -1,17 +1,19 @@
-# Microservices Architecture in .NET6 for Products, Customers, and Orders
+# Microservices Architecture in .NET6 for Users, Products, Customers, and Orders
 
-This project is a microservices-based architecture using .NET6 for Products, Customers, and Orders. It utilizes three different databases for each microservice, including Postgres, MS-SQL Server, and MongoDB. An API gateway using Ocelot is also implemented for handling requests and routing to the appropriate microservice.
+This project is a microservices-based architecture using .NET6 for Users, Products, Customers and Orders. It utilizes three different databases for each microservice, including Postgres, MS-SQL Server, and MongoDB. An API gateway using Ocelot is also implemented for handling requests and routing to the appropriate microservice.
 
 ## Architecture Overview
 
-The architecture consists of three separate microservices, each responsible for handling different aspects of the application:
+The architecture consists of four separate microservices, each responsible for handling different aspects of the application:
 
+- **Users Microservice**: Responsible for handling user-related operations, such as adding, retrieving, updating and authenticating users.
 - **Products Microservice**: Responsible for handling product-related operations, such as adding, retrieving, updating, and deleting products.
 - **Customers Microservice**: Responsible for handling customer-related operations, such as adding, retrieving, updating, and deleting customer information.
 - **Orders Microservice**: Responsible for handling order-related operations, such as placing, retrieving, and updating orders.
 
 Each microservice utilizes its own database, including:
 
+- **Users Microservice**: MS-SQL Server
 - **Products Microservice**: Postgres
 - **Customers Microservice**: MS-SQL Server
 - **Orders Microservice**: MongoDB
@@ -44,3 +46,7 @@ This will start the API gateway and all three microservices. You can then make r
 - Ocelot
 - CQRS(MediatR)
 - FluentValidation
+- JSON Web Token(JWT)
+- Redis
+- RabbitMQ
+- Unit Testing
