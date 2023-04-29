@@ -246,11 +246,17 @@ namespace User.Microservice.Services
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
         }
-        public async Task<GetUserDto> UpdateForgotPasswordTokenInDb(string Email, string Token)
+        
+
+        public async Task<GetUserDto> ForgotPasswordControllerMethod(string Email)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
-            if (user == null)
+            if(user == null)
                 throw new NotFoundException(nameof(user), Email);
+
+            string Token = ForgotPaswordToken();
+
+            //TODO: SendForgotPasswordEmail
 
             user.ForgotPasswordToken = Token;
             await _dbContext.SaveChangesAsync();
@@ -264,17 +270,6 @@ namespace User.Microservice.Services
                 CreatedDate = user.CreatedDate,
             };
             return GetDto;
-        }
-
-        public async void ForgotPasswordControllerMethod(string Email)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
-            if(user == null)
-                throw new NotFoundException(nameof(user), Email);
-
-            string Token = ForgotPaswordToken();
-            await UpdateForgotPasswordTokenInDb(Email, Token);
-            //TODO: SendForgotPasswordEmail
         }
     }
 }

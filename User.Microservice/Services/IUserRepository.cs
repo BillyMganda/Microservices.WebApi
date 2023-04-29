@@ -17,6 +17,6 @@ namespace User.Microservice.Services
         Task<GetUserDto> DeactivateUserAsync(Guid Id);
         void SendRegistrationEmail(EmailDto dto);
         void SendForgotPasswordEmail(string Email, string Token);
-        void ForgotPasswordControllerMethod(string Email);
+        Task<GetUserDto> ForgotPasswordControllerMethod(string Email);
     }
 }
