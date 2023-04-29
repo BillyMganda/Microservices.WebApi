@@ -21,29 +21,7 @@ namespace User.Microservice.Services
         {
             _dbContext = dbContext;
             _configuration = configuration;
-        }
-
-        public async Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt)
-        {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == entity.Token);
-            if (user == null)
-                throw new NotFoundException(nameof(user), entity.Token);
-
-            user.PasswordHash = Hash;
-            user.PasswordSalt = Salt;
-            user.ForgotPasswordToken = "";
-            await _dbContext.SaveChangesAsync();
-
-            var GetDto = new GetUserDto
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                CreatedDate = DateTime.Now,
-            };
-            return GetDto;
-        }
+        }              
 
         public string CreateJWTToken(LoginDto dto)
         {
@@ -268,6 +246,28 @@ namespace User.Microservice.Services
                 LastName = user.LastName,
                 Email = user.Email,
                 CreatedDate = user.CreatedDate,
+            };
+            return GetDto;
+        }
+
+        public async Task<GetUserDto> ChangeUserPasswordAsync(ChangePasswordDto entity, byte[] Hash, byte[] Salt)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ForgotPasswordToken == entity.Token);
+            if (user == null)
+                throw new NotFoundException(nameof(user), entity.Token);
+
+            user.PasswordHash = Hash;
+            user.PasswordSalt = Salt;
+            user.ForgotPasswordToken = "";
+            await _dbContext.SaveChangesAsync();
+
+            var GetDto = new GetUserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                CreatedDate = DateTime.Now,
             };
             return GetDto;
         }
