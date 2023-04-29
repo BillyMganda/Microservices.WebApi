@@ -62,7 +62,7 @@ namespace User.Microservice.Controllers
             try
             {
                 var user = await _mediator.Send(command);
-                return Ok(user);
+                return Ok("Operation successful");
             }
             catch (Exception)
             {
