@@ -234,8 +234,8 @@ namespace User.Microservice.Services
 
             string Token = ForgotPaswordToken();
 
-            //TODO: SendForgotPasswordEmail
-
+            // TODO: SendForgotPasswordEmail
+            // TODO: Logging passsword change request
             user.ForgotPasswordToken = Token;
             await _dbContext.SaveChangesAsync();
 
@@ -260,8 +260,9 @@ namespace User.Microservice.Services
             user.PasswordHash = PasswordHash;
             user.PasswordSalt = PasswordSalt;
             user.ForgotPasswordToken = "";
-            user.LastModifiedDate = DateTime.UtcNow;
+            user.LastModifiedDate = DateTime.Now;
             await _dbContext.SaveChangesAsync();
+            // TODO: Logging passsword change
 
             var GetDto = new GetUserDto
             {
