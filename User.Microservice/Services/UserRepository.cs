@@ -260,6 +260,7 @@ namespace User.Microservice.Services
             user.PasswordHash = PasswordHash;
             user.PasswordSalt = PasswordSalt;
             user.ForgotPasswordToken = "";
+            user.LastModifiedDate = DateTime.UtcNow;
             await _dbContext.SaveChangesAsync();
 
             var GetDto = new GetUserDto
