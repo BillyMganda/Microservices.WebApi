@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Text;
 using User.Microservice.Data;
+using User.Microservice.Exceptions;
 using User.Microservice.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +45,7 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
