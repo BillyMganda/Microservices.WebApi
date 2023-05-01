@@ -27,7 +27,7 @@ namespace User.Microservice.Exceptions
         {
             context.Response.ContentType = "application/json";
             HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError;
-            string result = JsonConvert.SerializeObject(new ErrorDetails { ErrorMessage = exeption.Message, ErrorType = "Failure" });
+            string result = JsonConvert.SerializeObject(new ErrorDetails { ErrorMessage = exeption.Message, Error = true });
 
             switch(exeption)
             {
