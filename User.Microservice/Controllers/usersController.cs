@@ -40,6 +40,12 @@ namespace User.Microservice.Controllers
             // TODO
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Users()
+        {
+            // TODO
+        }
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
         {
