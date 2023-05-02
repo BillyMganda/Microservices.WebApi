@@ -23,11 +23,11 @@ namespace User.Microservice.Services
             _configuration = configuration;
         }              
 
-        public string CreateJWTToken(LoginDto dto)
+        public string CreateJWTToken(string Email, string Password)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, dto.Email)
+                new Claim(ClaimTypes.Email,Email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Token").Value!));
@@ -58,15 +58,15 @@ namespace User.Microservice.Services
             return new string(Enumerable.Repeat(chars, 12).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public async Task<string> Login(LoginDto dto)
+        public async Task<string> Login(string Email, string Password)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
             if(user == null)
-                throw new NotFoundException(nameof(user), dto.Email);
-            bool IsCorrect = VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt);
+                throw new NotFoundException(nameof(user), Email);
+            bool IsCorrect = VerifyPasswordHash(Password, user.PasswordHash, user.PasswordSalt);
             if (IsCorrect == false)
                 throw new InvalidCredentialsException("Invalid credentials");
-            string Token = CreateJWTToken(dto);
+            string Token = CreateJWTToken(Email, Password);
             return Token;
         }
 

@@ -13,7 +13,7 @@ namespace User.Microservice.CQRS
 
         public Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var Jwt = _userRepository.Login(request.LoginDto);
+            var Jwt = _userRepository.Login(request.Email, request.Password);
             return Jwt;
         }
     }

@@ -9,9 +9,9 @@ namespace User.Microservice.Services
         string CreateRefreshToken();
         void CreatePasswordHash(string password, out byte[] PasswordHash, out byte[] PasswordSalt);
         bool VerifyPasswordHash(string password, byte[] PasswordHash, byte[] PasswordSalt);
-        string CreateJWTToken(LoginDto dto);
+        string CreateJWTToken(string Email, string Password);
         string ForgotPaswordToken();
-        Task<string> Login(LoginDto dto);
+        Task<string> Login(string Email, string Password);
         Task<GetUserDto> CreateUserAsync(AddUserDto entity);
         Task<GetUserDto> ChangeUserPasswordAsync(string Token, string NewPassword, string ConfirmNewPassword);
         Task<GetUserDto> DeactivateUserAsync(Guid Id);
