@@ -34,6 +34,12 @@ namespace User.Microservice.Controllers
             // TODO
         }
 
+        [HttpPost("revoke-token")]
+        public async Task<IActionResult> RevokeRefreshToken()
+        {
+            // TODO
+        }
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
         {
