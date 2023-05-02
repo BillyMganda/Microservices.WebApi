@@ -41,7 +41,13 @@ namespace User.Microservice.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> GetUsers()
+        {
+            // TODO
+        }
+
+        [HttpGet("id")]
+        public async Task<IActionResult> GetUserById(Guid Id)
         {
             // TODO
         }
