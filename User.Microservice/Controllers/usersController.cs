@@ -46,8 +46,14 @@ namespace User.Microservice.Controllers
             // TODO
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(Guid Id)
+        {
+            // TODO
+        }
+
+        [HttpGet("{id}/refresh-tokens")]
+        public async Task<IActionResult> GetRefreshTokensByUserId(Guid Id)
         {
             // TODO
         }
