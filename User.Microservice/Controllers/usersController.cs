@@ -21,7 +21,7 @@ namespace User.Microservice.Controllers
             return Ok(userDto);
         }
 
-        [HttpPost("login")]
+        [HttpPost("authenticate")]
         public async Task<IActionResult> UserLogin([FromBody] LoginCommand command)
         {
             var Jwt = await _mediator.Send(command);
