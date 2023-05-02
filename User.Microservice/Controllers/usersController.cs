@@ -28,6 +28,12 @@ namespace User.Microservice.Controllers
             return Ok(Jwt);
         }
 
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> GenerateRefreshToken()
+        {
+            // TODO
+        }
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
         {
