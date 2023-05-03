@@ -58,7 +58,7 @@ namespace User.Microservice.Services
             return new string(Enumerable.Repeat(chars, 12).Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public async Task<string> Login(string Email, string Password)
+        public async Task<AuthenticateResponse> Login(string Email, string Password)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
             if(user == null)
@@ -67,7 +67,16 @@ namespace User.Microservice.Services
             if (IsCorrect == false)
                 throw new InvalidCredentialsException("Invalid credentials");
             string Token = CreateJWTToken(Email, Password);
-            return Token;
+
+            var AuthResponse = new AuthenticateResponse
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                JwtToken = Token,
+                RefreshToken = CreateRefreshToken()
+            };
+            return AuthResponse;
         }
 
         public async Task<GetUserDto> CreateUserAsync(AddUserDto dto)

@@ -4,7 +4,7 @@ using User.Microservice.DTOs;
 
 namespace User.Microservice.CQRS
 {
-    public class LoginCommand : IRequest<string>
+    public class LoginCommand : IRequest<AuthenticateResponse>
     {
         [Required, EmailAddress]
         public string Email { get; set; } = string.Empty;

@@ -28,35 +28,35 @@ namespace User.Microservice.Controllers
             return Ok(Jwt);
         }
 
-        [HttpPost("refresh-token")]
-        public async Task<IActionResult> GenerateRefreshToken()
-        {
-            // TODO
-        }
+        //[HttpPost("refresh-token")]
+        //public async Task<IActionResult> GenerateRefreshToken()
+        //{
+        //    // TODO
+        //}
 
-        [HttpPost("revoke-token")]
-        public async Task<IActionResult> RevokeRefreshToken()
-        {
-            // TODO
-        }
+        //[HttpPost("revoke-token")]
+        //public async Task<IActionResult> RevokeRefreshToken()
+        //{
+        //    // TODO
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            // TODO
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetUsers()
+        //{
+        //    // TODO
+        //}
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(Guid Id)
-        {
-            // TODO
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetUserById(Guid Id)
+        //{
+        //    // TODO
+        //}
 
-        [HttpGet("{id}/refresh-tokens")]
-        public async Task<IActionResult> GetRefreshTokensByUserId(Guid Id)
-        {
-            // TODO
-        }
+        //[HttpGet("{id}/refresh-tokens")]
+        //public async Task<IActionResult> GetRefreshTokensByUserId(Guid Id)
+        //{
+        //    // TODO
+        //}
 
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
