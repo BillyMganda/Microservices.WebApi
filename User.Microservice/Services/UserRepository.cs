@@ -11,17 +11,20 @@ using User.Microservice.DTOs;
 using User.Microservice.Exceptions;
 using User.Microservice.Models;
 
+
 namespace User.Microservice.Services
 {
     public class UserRepository : IUserRepository
     {
         private readonly UserDbContext _dbContext;
         private readonly IConfiguration _configuration;
-        public UserRepository(UserDbContext dbContext, IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserRepository(UserDbContext dbContext, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _dbContext = dbContext;
             _configuration = configuration;
-        }              
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         public string CreateJWTToken(string Email, string Password)
         {
@@ -35,7 +38,7 @@ namespace User.Microservice.Services
             var token = new JwtSecurityToken
                 (
                 claims: claims,
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds
                 );
             string JwtToken = new JwtSecurityTokenHandler().WriteToken(token);
@@ -53,9 +56,14 @@ namespace User.Microservice.Services
 
         public string CreateRefreshToken()
         {
-            Random random = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, 12).Select(s => s[random.Next(s.Length)]).ToArray());
+            var refreshToken = Guid.NewGuid().ToString();
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            _httpContextAccessor.HttpContext!.Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
+            return refreshToken;
         }
 
         public async Task<AuthenticateResponse> Login(string Email, string Password)
