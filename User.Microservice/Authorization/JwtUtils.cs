@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using User.Microservice.Data;
+using User.Microservice.Helpers;
 using User.Microservice.Models;
 using User.Microservice.Services;
 

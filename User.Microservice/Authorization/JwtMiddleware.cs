@@ -1,4 +1,7 @@
-﻿namespace User.Microservice.Authorization
+﻿using User.Microservice.Helpers;
+using User.Microservice.Services;
+
+namespace User.Microservice.Authorization
 {
     public class JwtMiddleware
     {
