@@ -1,4 +1,6 @@
-﻿namespace User.Microservice.Models
+﻿using System.Text.Json.Serialization;
+
+namespace User.Microservice.Models
 {
     public class UserModel
     {
@@ -12,6 +14,7 @@
         public DateTime LastModifiedDate { get; set; }
         public string ForgotPasswordToken { get; set; } = string.Empty;
         public bool IsTermsAgreed { get; set; }
-        public string RefreshToken { get; set; } = string.Empty;
+        [JsonIgnore]
+        public List<RefreshToken> RefreshTokens { get; set; }
     }
 }

@@ -28,11 +28,11 @@ namespace User.Microservice.Controllers
             return Ok(Jwt);
         }
 
-        //[HttpPost("refresh-token")]
-        //public async Task<IActionResult> GenerateRefreshToken()
-        //{
-        //    // TODO
-        //}
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> GenerateNewRefreshToken()
+        {
+            
+        }
 
         //[HttpPost("revoke-token")]
         //public async Task<IActionResult> RevokeRefreshToken()
