@@ -149,14 +149,14 @@ namespace User.Microservice.Services
             token.ReplacedByToken = replacedByToken;
         }
 
-        string IUserService.AddNewUser(UserModel model)
+        string IUserService.AddNewUser(AddUserRequest request)
         {
             var user = new UserModel
             {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Username = model.Username,
-                PasswordHash = BCryptNet.HashPassword(model.PasswordHash)
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Username = request.Username,
+                PasswordHash = BCryptNet.HashPassword(request.Password)
             };
 
             _context.Users.Add(user);
