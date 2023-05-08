@@ -1,4 +1,5 @@
-﻿using User.Microservice.Authorization;
+﻿using Microsoft.Extensions.Options;
+using User.Microservice.Authorization;
 using User.Microservice.DTOs;
 using User.Microservice.Entities;
 using User.Microservice.Helpers;
@@ -11,11 +12,11 @@ namespace User.Microservice.Services
         private DataContext _context;
         private IJwtUtils _jwtUtils;
         private readonly AppSettings _appSettings;
-        public UserService(DataContext context, IJwtUtils jwtUtils, AppSettings appSettings)
+        public UserService(DataContext context, IJwtUtils jwtUtils, IOptions<AppSettings> appSettings)
         {
             _context = context;
             _jwtUtils = jwtUtils;
-            _appSettings = appSettings;
+            _appSettings = appSettings.Value;
         }               
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)

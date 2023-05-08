@@ -1,4 +1,5 @@
-﻿using User.Microservice.Helpers;
+﻿using Microsoft.Extensions.Options;
+using User.Microservice.Helpers;
 using User.Microservice.Services;
 
 namespace User.Microservice.Authorization
@@ -7,10 +8,10 @@ namespace User.Microservice.Authorization
     {
         private readonly RequestDelegate _next;
         private readonly AppSettings _appSettings;
-        public JwtMiddleware(RequestDelegate next, AppSettings appSettings)
+        public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
         {
             _next = next;
-            _appSettings = appSettings;
+            _appSettings = appSettings.Value;
         }
 
         public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
