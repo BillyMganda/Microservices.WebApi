@@ -149,7 +149,7 @@ namespace User.Microservice.Services
             token.ReplacedByToken = replacedByToken;
         }
 
-        string IUserService.AddNewUser(AddUserRequest request)
+        Guid IUserService.AddNewUser(AddUserRequest request)
         {
             var user = new UserModel
             {
@@ -161,7 +161,7 @@ namespace User.Microservice.Services
 
             _context.Users.Add(user);
             _context.SaveChanges();
-            return "operation successful";
+            return user.Id;
         }
     }
 }
