@@ -17,10 +17,10 @@ namespace User.Microservice.Authorization
         public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            var userId = jwtUtils.ValidateJwtToken(token!);
-            var userIdGuid = Guid.Parse(userId!);
+            var userId = jwtUtils.ValidateJwtToken(token!);            
             if (userId != null)
             {
+                var userIdGuid = Guid.Parse(userId);
                 // attach user to context on successful jwt validation
                 context.Items["User"] = userService.GetById(userIdGuid);
             }
