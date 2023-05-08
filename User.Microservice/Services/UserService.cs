@@ -148,5 +148,20 @@ namespace User.Microservice.Services
             token.ReasonRevoked = reason;
             token.ReplacedByToken = replacedByToken;
         }
+
+        string IUserService.AddNewUser(UserModel model)
+        {
+            var user = new UserModel
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Username = model.Username,
+                PasswordHash = BCryptNet.HashPassword(model.PasswordHash)
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return "operation successful";
+        }
     }
 }
