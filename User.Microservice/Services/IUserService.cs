@@ -10,5 +10,7 @@ namespace User.Microservice.Services
         void RevokeToken(string token, string ipAddress);
         IEnumerable<UserModel> GetAll();
         UserModel GetById(Guid id);
+
+        string AddNewUser(UserModel model);
     }
 }
