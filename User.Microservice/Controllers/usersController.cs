@@ -92,11 +92,8 @@ namespace User.Microservice.Controllers
 
         private string ipAddress()
         {
-            // get source ip address for the current request
-            if (Request.Headers.ContainsKey("X-Forwarded-For"))
-                return Request.Headers["X-Forwarded-For"];
-            else
-                return HttpContext.Connection.RemoteIpAddress!.MapToIPv4().ToString();
+            string ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString()!;
+            return ipAddress;
         }
     }
 }
