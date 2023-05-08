@@ -17,6 +17,14 @@ namespace User.Microservice.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("add")]
+        public IActionResult AddNewUser(AddUserRequest request)
+        {
+            var response = _userService.AddNewUser(request);
+            return CreatedAtAction(nameof(AddNewUser), new { id = response.Id }, response);
+        }
+
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {
