@@ -11,6 +11,6 @@ namespace User.Microservice.Services
         IEnumerable<UserModel> GetAll();
         UserModel GetById(Guid id);
 
-        string AddNewUser(UserModel model);
+        string AddNewUser(AddUserRequest request);
     }
 }
