@@ -37,7 +37,7 @@ namespace Customer.Microservice.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> AddCustomer([FromBody] AddCustomerCommand command)
+        public async Task<ActionResult> AddCustomer([FromBody] AddCustomerCommand command)
         {
             var customerId = await _mediator.Send(command);
 
