@@ -71,5 +71,59 @@ namespace Test.Microservice
                 Assert.Equal(expectedCustomers[i].LastModifiedDate, actualCustomers[i].LastModifiedDate);
             }
         }
+
+
+        [Fact]
+        public async Task GetCustomerById_WithExistingCustomerId_ReturnsOkObjectResult_WithGetCustomerDto()
+        {
+            // Arrange
+            var customerId = Guid.NewGuid();
+            var expectedCustomer = new GetCustomerDto
+            {
+                Id = customerId,
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "johndoe@example.com",
+                PhoneNumber = "+254 987 654",
+                City = "Nairobi",
+                State = "Nairobi City",
+                ZipCode = "00100",
+                LastModifiedDate = DateTime.Now.AddDays(-1)
+            };
+            _mediatorMock.Setup(m => m.Send(It.Is<GetCustomerByIdQuery>(q => q.Id == customerId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(expectedCustomer);
+
+            // Act
+            var result = await _customersController.GetCustomerById(customerId);
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(result.Result);
+            var actualCustomer = Assert.IsType<GetCustomerDto>(okObjectResult.Value);
+            Assert.Equal(expectedCustomer.Id, actualCustomer.Id);
+            Assert.Equal(expectedCustomer.FirstName, actualCustomer.FirstName);
+            Assert.Equal(expectedCustomer.LastName, actualCustomer.LastName);
+            Assert.Equal(expectedCustomer.Email, actualCustomer.Email);
+            Assert.Equal(expectedCustomer.PhoneNumber, actualCustomer.PhoneNumber);
+            Assert.Equal(expectedCustomer.City, actualCustomer.City);
+            Assert.Equal(expectedCustomer.State, actualCustomer.State);
+            Assert.Equal(expectedCustomer.ZipCode, actualCustomer.ZipCode);
+            Assert.Equal(expectedCustomer.LastModifiedDate, actualCustomer.LastModifiedDate);
+        }
+
+        [Fact]
+        public async Task GetCustomerById_WithNonExistingCustomerId_ReturnsNotFoundResult()
+        {
+            // Arrange
+            var customerId = Guid.NewGuid();
+            _mediatorMock.Setup(m => m.Send(It.Is<GetCustomerByIdQuery>(q => q.Id == customerId), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((GetCustomerDto)null);
+
+            // Act
+            var result = await _customersController.GetCustomerById(customerId);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
     }
 }
