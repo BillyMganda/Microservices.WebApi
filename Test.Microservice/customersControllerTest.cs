@@ -125,5 +125,34 @@ namespace Test.Microservice
             Assert.IsType<NotFoundResult>(result.Result);
         }
 
+
+        [Fact]
+        public async Task AddCustomer_ReturnsOkResultWithCustomerId()
+        {
+            // Arrange
+            var command = new AddCustomerCommand 
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "johndoe@example.com",
+                PhoneNumber = "+254 987 654",
+                City = "Nairobi",
+                State = "Nairobi City",
+                ZipCode = "00100"
+            };
+            var expectedCustomerId = Guid.NewGuid();
+            _mediatorMock
+                .Setup(m => m.Send(It.IsAny<AddCustomerCommand>(), default))
+                .ReturnsAsync(expectedCustomerId);
+
+            // Act
+            var result = await _customersController.AddCustomer(command);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<Guid>>(result);
+            var actualCustomerId = Assert.IsType<Guid>(actionResult.Value);
+            Assert.Equal(expectedCustomerId, actualCustomerId);
+        }
+
     }
 }
