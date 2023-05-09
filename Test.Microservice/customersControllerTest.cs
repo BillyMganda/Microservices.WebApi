@@ -184,5 +184,31 @@ namespace Test.Microservice
             Assert.Equal(StatusCodes.Status200OK, actionResult.StatusCode);
         }
 
+        [Fact]
+        public async Task UpdateCustomer_WhenUpdateFails_ReturnsBadRequest()
+        {
+            // Arrange
+            var command = new UpdateCustomerCommand
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "johndoe@example.com",
+                PhoneNumber = "+254 987 654",
+                City = "Nairobi",
+                State = "Nairobi City",
+                ZipCode = "00100"
+            };
+            var expectedMessage = "Update failed";
+            _mediatorMock.Setup(m => m.Send(command, default))
+                         .ReturnsAsync(expectedMessage);
+
+            // Act
+            var response = await _customersController.UpdateCustomer(command);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(response);
+        }
+
     }
 }
