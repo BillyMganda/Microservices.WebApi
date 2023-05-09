@@ -2,6 +2,7 @@ using Customer.Microservice.Controllers;
 using Customer.Microservice.CQRS;
 using Customer.Microservice.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -152,6 +153,35 @@ namespace Test.Microservice
             var actionResult = Assert.IsType<ActionResult<Guid>>(result);
             var actualCustomerId = Assert.IsType<Guid>(actionResult.Value);
             Assert.Equal(expectedCustomerId, actualCustomerId);
+        }
+
+
+        [Fact]
+        public async Task UpdateCustomer_ReturnsOkResult_WhenCustomerIsUpdatedSuccessfully()
+        {
+            // Arrange
+            var command = new UpdateCustomerCommand
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "johndoe@example.com",
+                PhoneNumber = "+254 987 654",
+                City = "Nairobi",
+                State = "Nairobi City",
+                ZipCode = "00100"
+            };
+
+            _mediatorMock
+                .Setup(m => m.Send(It.IsAny<UpdateCustomerCommand>(), default))
+                .ReturnsAsync("Customer updated successfully.");
+
+            // Act
+            var result = await _customersController.UpdateCustomer(command);
+
+            // Assert
+            var actionResult = Assert.IsType<OkResult>(result);
+            Assert.Equal(StatusCodes.Status200OK, actionResult.StatusCode);
         }
 
     }
