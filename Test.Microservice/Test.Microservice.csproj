@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Customer.Microservice\Customer.Microservice.csproj" />
+    <ProjectReference Include="..\Order.Microservice\Order.Microservice.csproj" />
   </ItemGroup>
 
 </Project>
