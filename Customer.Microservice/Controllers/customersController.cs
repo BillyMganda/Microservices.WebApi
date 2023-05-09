@@ -41,7 +41,7 @@ namespace Customer.Microservice.Controllers
         {
             var customerId = await _mediator.Send(command);
 
-            return Ok(customerId);
+            return Ok(new { CustomerId = customerId });
         }
 
         [HttpPut]
