@@ -128,10 +128,11 @@ namespace Test.Microservice
 
 
         [Fact]
-        public async Task AddCustomer_WhenValidModel_ReturnsCreatedAtAction()
+        public async Task AddCustomer_ReturnsCreatedAtRoute()
         {
             // Arrange
-            var command = new AddCustomerCommand 
+            var customerId = Guid.NewGuid();
+            var command = new AddCustomerCommand
             {
                 FirstName = "John",
                 LastName = "Doe",
@@ -141,9 +142,9 @@ namespace Test.Microservice
                 State = "Nairobi City",
                 ZipCode = "00100"
             };
-            var customerId = Guid.NewGuid();
-            _mediatorMock.Setup(m => m.Send(It.IsAny<AddCustomerCommand>(), default))
-                      .ReturnsAsync(customerId);
+            _mediatorMock.Setup(m => m.Send(command, default)).ReturnsAsync(customerId);
+            _customersController.ControllerContext.HttpContext = new DefaultHttpContext();
+
 
             // Act
             var result = await _customersController.AddCustomer(command);
@@ -151,8 +152,8 @@ namespace Test.Microservice
             // Assert
             var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(result);
             Assert.Equal("GetCustomerById", createdAtRouteResult.RouteName);
-            Assert.Equal(customerId, createdAtRouteResult.RouteValues["id"]);
-            Assert.Equal(customerId, ((dynamic)createdAtRouteResult.Value).CustomerId);
+            Assert.Equal(customerId, createdAtRouteResult.RouteValues!["id"]);
+            Assert.Equal(customerId, createdAtRouteResult.Value!.GetType().GetProperty("CustomerId")!.GetValue(createdAtRouteResult.Value));
         }
 
 
