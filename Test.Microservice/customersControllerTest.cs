@@ -149,11 +149,10 @@ namespace Test.Microservice
             var result = await _customersController.AddCustomer(command);
 
             // Assert
-            var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
-            Assert.IsType<Guid>(createdAtActionResult.RouteValues["id"]);
-
-            var returnValue = (dynamic)createdAtActionResult.Value;
-            Assert.Equal(customerId, returnValue.CustomerId);
+            var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(result);
+            Assert.Equal("GetCustomerById", createdAtRouteResult.RouteName);
+            Assert.Equal(customerId, createdAtRouteResult.RouteValues["id"]);
+            Assert.Equal(customerId, ((dynamic)createdAtRouteResult.Value).CustomerId);
         }
 
 

@@ -24,7 +24,7 @@ namespace Customer.Microservice.Controllers
             return Ok(customers);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCustomerById")]
         public async Task<ActionResult<GetCustomerDto>> GetCustomerById(Guid id)
         {
             var query = new GetCustomerByIdQuery { Id = id };
