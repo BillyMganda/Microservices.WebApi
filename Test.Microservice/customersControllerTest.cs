@@ -128,7 +128,7 @@ namespace Test.Microservice
 
 
         [Fact]
-        public async Task AddCustomer_ReturnsOkResultWithCustomerId()
+        public async Task AddCustomer_WhenValidModel_ReturnsCreatedAtAction()
         {
             // Arrange
             var command = new AddCustomerCommand 
@@ -141,18 +141,19 @@ namespace Test.Microservice
                 State = "Nairobi City",
                 ZipCode = "00100"
             };
-            var expectedCustomerId = Guid.NewGuid();
-            _mediatorMock
-                .Setup(m => m.Send(It.IsAny<AddCustomerCommand>(), default))
-                .ReturnsAsync(expectedCustomerId);
+            var customerId = Guid.NewGuid();
+            _mediatorMock.Setup(m => m.Send(It.IsAny<AddCustomerCommand>(), default))
+                      .ReturnsAsync(customerId);
 
             // Act
             var result = await _customersController.AddCustomer(command);
 
             // Assert
-            var actionResult = Assert.IsType<ActionResult<Guid>>(result);
-            var actualCustomerId = Assert.IsType<Guid>(actionResult.Value);
-            Assert.Equal(expectedCustomerId, actualCustomerId);
+            var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(result);
+            Assert.IsType<Guid>(createdAtActionResult.RouteValues["id"]);
+
+            var returnValue = (dynamic)createdAtActionResult.Value;
+            Assert.Equal(customerId, returnValue.CustomerId);
         }
 
 

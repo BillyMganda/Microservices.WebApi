@@ -41,7 +41,7 @@ namespace Customer.Microservice.Controllers
         {
             var customerId = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetCustomerById), new { id = customerId }, new { CustomerId = customerId });
+            return CreatedAtRoute("GetCustomerById", new { id = customerId }, new { CustomerId = customerId });
         }
 
         [HttpPut]
