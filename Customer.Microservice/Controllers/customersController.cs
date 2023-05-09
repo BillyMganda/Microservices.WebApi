@@ -24,7 +24,7 @@ namespace Customer.Microservice.Controllers
             return Ok(customers);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetCustomerById")]
         public async Task<ActionResult<GetCustomerDto>> GetCustomerById(Guid id)
         {
             var query = new GetCustomerByIdQuery { Id = id };
@@ -37,11 +37,11 @@ namespace Customer.Microservice.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> AddCustomer([FromBody] AddCustomerCommand command)
+        public async Task<ActionResult> AddCustomer([FromBody] AddCustomerCommand command)
         {
             var customerId = await _mediator.Send(command);
 
-            return Ok(customerId);
+            return CreatedAtRoute("GetCustomerById", new { id = customerId }, new { CustomerId = customerId });
         }
 
         [HttpPut]
@@ -67,7 +67,7 @@ namespace Customer.Microservice.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                return NotFound("Customer not found");
             }
         }
 
