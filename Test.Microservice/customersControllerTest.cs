@@ -227,5 +227,24 @@ namespace Test.Microservice
             Assert.IsType<OkResult>(response);
         }
 
+
+        [Fact]
+        public async Task Delete_WhenCustomerDoesNotExist_ReturnsNotFound()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            _mediatorMock
+                .Setup(m => m.Send(It.IsAny<DeleteCustomerCommand>(), default))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            var result = await _customersController.Delete(id);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal(404, (result as NotFoundObjectResult).StatusCode);
+            Assert.Equal("Customer not found", (result as NotFoundObjectResult).Value);
+        }
+
     }
 }

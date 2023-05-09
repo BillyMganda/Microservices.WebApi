@@ -67,7 +67,7 @@ namespace Customer.Microservice.Controllers
             }
             catch (Exception)
             {
-                return NotFound();
+                return NotFound("Customer not found");
             }
         }
 
