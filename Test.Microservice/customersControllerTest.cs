@@ -210,5 +210,22 @@ namespace Test.Microservice
             Assert.IsType<BadRequestResult>(response);
         }
 
+
+        [Fact]
+        public async Task Delete_WhenCustomerExists_ReturnsOk()
+        {
+            // Arrange
+            var id = Guid.NewGuid();
+            _mediatorMock.Setup(m => m.Send(It.IsAny<DeleteCustomerCommand>(), default))
+                         .Verifiable();
+
+            // Act
+            var response = await _customersController.Delete(id);
+
+            // Assert
+            _mediatorMock.Verify();
+            Assert.IsType<OkResult>(response);
+        }
+
     }
 }
