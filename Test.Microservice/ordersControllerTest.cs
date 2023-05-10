@@ -109,10 +109,60 @@ namespace Test.Microservice
             var orderId = Guid.NewGuid();
             var query = new GetOrderByOrderIdQuery { OrderId = orderId };
             _mediatorMock.Setup(m => m.Send(query, default)).ReturnsAsync((GetOrderDto)null);
-            var controller = new customersController(_mediatorMock.Object);
 
             // Act
             var result = await _ordersController.GetOrderByOrderId(orderId);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result.Result);
+        }
+
+
+        [Fact]
+        public async Task GetOrderByCustomerId_ReturnsOkObjectResult_WhenOrderExists()
+        {
+            // Arrange
+            var customerId = Guid.NewGuid();
+            var expectedOrder = new GetOrderDto
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = customerId,
+                ProductId = new List<Guid>(),
+                OrderDate = DateTime.Now.AddDays(-2),
+                Price = 20,
+                Quantity = 20
+            };
+            var query = new GetOrderByCustomerIdQuery { CustomerId = customerId };
+            _mediatorMock
+                .Setup(m => m.Send(It.Is<GetOrderByCustomerIdQuery>(q => q.CustomerId == customerId), default))
+                .ReturnsAsync(expectedOrder);
+
+
+            // Act
+            var result = await _ordersController.GetOrderByCustomerId(customerId);
+
+            // Assert
+            var okObjectResult = Assert.IsType<OkObjectResult>(result.Result);
+            var actualOrder = Assert.IsType<GetOrderDto>(okObjectResult.Value);
+            Assert.Equal(expectedOrder.Id, actualOrder.Id);
+            Assert.Equal(expectedOrder.CustomerId, actualOrder.CustomerId);
+            Assert.Equal(expectedOrder.ProductId, actualOrder.ProductId);
+            Assert.Equal(expectedOrder.OrderDate, actualOrder.OrderDate);
+            Assert.Equal(expectedOrder.Price, actualOrder.Price);
+            Assert.Equal(expectedOrder.Quantity, actualOrder.Quantity);
+        }
+
+
+        [Fact]
+        public async Task GetOrderByCustomerId_ReturnsNotFoundResult_WhenOrderDoesNotExist()
+        {
+            // Arrange
+            var customerId = Guid.NewGuid();
+            var query = new GetOrderByCustomerIdQuery { CustomerId = customerId };
+            _mediatorMock.Setup(m => m.Send(query, default)).ReturnsAsync((GetOrderDto)null);            
+
+            // Act
+            var result = await _ordersController.GetOrderByCustomerId(customerId);
 
             // Assert
             Assert.IsType<NotFoundResult>(result.Result);
