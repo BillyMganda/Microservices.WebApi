@@ -26,9 +26,14 @@ namespace Product.Microservice.Services
 
         public async Task<ProductEntity> DeleteAsync(ProductEntity entity)
         {
+            var cacheKey = $"product_{entity.Id}";
             var result = await _context.Products.FirstOrDefaultAsync(x => x.Id == entity.Id);
-            _context.Products.Remove(result);
-            await _context.SaveChangesAsync();
+            if (result != null)
+            {
+                _context.Products.Remove(result);
+                await _context.SaveChangesAsync();
+                await _cache.RemoveAsync(cacheKey);
+            }               
             return result;
         }
 
