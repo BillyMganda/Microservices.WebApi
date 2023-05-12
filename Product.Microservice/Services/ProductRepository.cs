@@ -51,7 +51,14 @@ namespace Product.Microservice.Services
 
         public async Task<ProductEntity> GetByIdAsync(Guid Id)
         {
+            var cacheKey = "one_product";
+            var cachedProduct = await _cache.GetRecordAsync<ProductEntity>(cacheKey);
+            if (cachedProduct != null)
+            {
+                return cachedProduct;
+            }
             var result = await _context.Products.FindAsync(Id);
+            await _cache.SetRecordAsync(cacheKey, result);
             return result;
         }
 
