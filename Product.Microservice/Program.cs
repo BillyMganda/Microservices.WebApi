@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Product.Microservice.Data;
+using Product.Microservice.Exceptions;
 using Product.Microservice.Services;
 using System.Reflection;
 
@@ -20,6 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
