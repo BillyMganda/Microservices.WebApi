@@ -21,6 +21,10 @@ namespace Product.Microservice.Services
             await _context.Products.AddAsync(entity);
             await _context.SaveChangesAsync();
 
+            // Add the new product to the cache
+            var cacheKey = $"product_{entity.Id}";
+            await _cache.SetRecordAsync(cacheKey, entity);
+
             return entity;
         }
 
