@@ -13,7 +13,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddDbContext<ProductDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")));
 builder.Services.AddStackExchangeRedisCache(options => {
-    options.Configuration = builder.Configuration.GetConnectionString("RedisCacheUrl");
+    options.Configuration = builder.Configuration.GetSection("RedisCacheUrl").Value;
     options.InstanceName = "RedisDemo_";
 });
 
