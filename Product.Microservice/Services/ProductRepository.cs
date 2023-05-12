@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Product.Microservice.Data;
+using Product.Microservice.Helpers;
 using Product.Microservice.Models;
 
 namespace Product.Microservice.Services
@@ -7,9 +9,11 @@ namespace Product.Microservice.Services
     public class ProductRepository : IProductRepository
     {
         private readonly ProductDbContext _context;
-        public ProductRepository(ProductDbContext productDbContext)
+        private IDistributedCache _cache;
+        public ProductRepository(ProductDbContext productDbContext, IDistributedCache cache)
         {
             _context = productDbContext;
+            _cache = cache;
         }
 
         public async Task<ProductEntity> CreateAsync(ProductEntity entity)
@@ -30,12 +34,31 @@ namespace Product.Microservice.Services
 
         public async Task<IReadOnlyList<ProductEntity>> GetAllAsync()
         {
-            return await _context.Products.ToListAsync();
+            var cacheKey = "all_products";
+            var cachedProducts = await _cache.GetRecordAsync<IReadOnlyList<ProductEntity>>(cacheKey);
+
+            if (cachedProducts != null)
+            {
+                return cachedProducts;
+            }
+
+            var products = await _context.Products.ToListAsync();
+
+            await _cache.SetRecordAsync(cacheKey, products);
+
+            return products;
         }
 
         public async Task<ProductEntity> GetByIdAsync(Guid Id)
         {
+            var cacheKey = "one_product";
+            var cachedProduct = await _cache.GetRecordAsync<ProductEntity>(cacheKey);
+            if (cachedProduct != null)
+            {
+                return cachedProduct;
+            }
             var result = await _context.Products.FindAsync(Id);
+            await _cache.SetRecordAsync(cacheKey, result);
             return result;
         }
 
